@@ -1,0 +1,37 @@
+[project]
+name = "inspect-milgram"
+version = "1.3.0"
+description = "Milgram obedience battery for LLMs, as an Inspect eval (arXiv:2608.16177)"
+authors = [{ name = "Hidayet Aksu" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["inspect_ai>=0.3.140"]
+
+[project.entry-points.inspect_ai]
+milgram = "milgram"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["milgram"]
+
+[tool.setuptools.package-data]
+milgram = ["data/*.json", "eval.yaml"]
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "mypy>=1.10"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["src/milgram/trial_engine.py"]
+
+[[tool.mypy.overrides]]
+module = ["milgram.trial_engine"]
+ignore_errors = true
