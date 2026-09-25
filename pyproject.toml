@@ -1,5 +1,5 @@
 [project]
-name = "inspect-milgram"
+name = "milgram"
 version = "1.3.0"
 description = "Milgram obedience battery for LLMs, as an Inspect eval (arXiv:2608.16177)"
 authors = [{ name = "Hidayet Aksu" }]
@@ -23,7 +23,14 @@ include = ["milgram"]
 milgram = ["data/*.json", "eval.yaml"]
 
 [dependency-groups]
-dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "mypy>=1.10"]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "openai>=3.19.2",
+    "anthropic>=1.8.0",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
