@@ -1,5 +1,7 @@
 """End-to-end tests with Inspect's mockllm provider (no API key)."""
 
+import tempfile
+
 from inspect_ai import eval
 from inspect_ai.model import ModelOutput, get_model
 
@@ -9,9 +11,15 @@ from milgram.trial_engine import parse_action
 
 def _run(outputs, condition="baseline"):
     model = get_model("mockllm/model", custom_outputs=outputs)
-    [log] = eval(milgram(conditions=condition, epochs=1), model=model, display="none")
-    assert log.status == "success", log.error
-    return log.samples[0]
+    with tempfile.TemporaryDirectory() as log_dir:
+        [log] = eval(
+            milgram(conditions=condition, epochs=1),
+            model=model,
+            display="none",
+            log_dir=log_dir,
+        )
+        assert log.status == "success", log.error
+        return log.samples[0]
 
 
 def _text(s):
